@@ -16,6 +16,10 @@ class RegistationForm extends Component {
 
   submitHandler = e => {
     e.preventDefault();
+
+    /**
+     * Why are you calling BOTH functions??
+     */
     this.props.login(this.state);
     this.props.signup(this.state);
   };

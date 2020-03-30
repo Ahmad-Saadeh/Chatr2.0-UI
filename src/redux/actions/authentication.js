@@ -6,6 +6,10 @@ import { SET_CURRENT_USER } from "./actionTypes";
 
 import { setErrors } from "./errors";
 
+/**
+ * I think this should be called something else.
+ * In all the demos and tasks we called it `setAuthHeader`
+ */
 export const checkForExpiredToken = token => {
   instance.defaults.headers.Authorization = `jwt ${token}`;
 };
