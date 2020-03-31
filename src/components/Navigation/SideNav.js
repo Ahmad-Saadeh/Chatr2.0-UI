@@ -12,6 +12,18 @@ import {
 // Components
 import ChannelNavLink from "./ChannelNavLink";
 
+/*
+ * This:
+ * {this.props.user ? (
+      <div style={{ width: "240px" }}>{channelLinks}</div>
+    ) : (
+      ""
+    )}
+ * Can be simplified to this:
+ * {this.props.user && <div style={{ width: "240px" }}>{channelLinks}</div>}
+ * Since you're not rendering anything if the condition is false.
+ */
+
 class SideNav extends React.Component {
   state = { collapsed: false };
   render() {

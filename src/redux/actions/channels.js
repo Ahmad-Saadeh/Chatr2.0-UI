@@ -6,7 +6,7 @@ export const getChannels = () => {
     try {
       const response = await instance.get("channels/");
       const channels = response.data;
-      console.log(channels);
+      console.log(channels); // console logs like this that help you debug should be removed before merging into master.
       dispatch({
         type: CHANNELS,
         payload: channels
