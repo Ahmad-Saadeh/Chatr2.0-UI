@@ -10,6 +10,13 @@ import {
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
 
+/*
+ *
+ * Using a ternary operator would simplify this code a lot.
+ * You wouldn't need to define buttons or have an if statement.
+ *
+ */
+
 const AuthButton = ({ user, logout }) => {
   let buttons = [
     <li key="loginButton" className="nav-item">
