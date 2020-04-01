@@ -2,6 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
+/*
+ *
+ * Check: if the user is logged in, redirect to another page.
+ * This way you wouldn't have to put those conditions in the JSX below.
+ *
+ */
 const Welcome = ({ user }) => (
   <header className="masthead d-flex">
     <div className="container text-center my-auto z-1">

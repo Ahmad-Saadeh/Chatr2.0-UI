@@ -56,6 +56,7 @@ class SideNav extends React.Component {
   }
 }
 
+// typo
 const mapDispatxhToProps = dispatch => {
   return {
     getChannels: () => dispatch(getChannels())
