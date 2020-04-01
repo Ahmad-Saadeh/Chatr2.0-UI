@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { viewChannel } from "../redux/actions";
 
+/*
+ * Remove those console logs used during development before merging into master
+ */
+
 class ViewMessages extends Component {
   componentDidMount() {
     this.props.viewChannel(this.props.match.params.channelID);
