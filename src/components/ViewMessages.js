@@ -4,9 +4,9 @@ import { viewChannel } from "../redux/actions";
 import AddMessage from "./AddMessage";
 class ViewMessages extends Component {
   componentDidMount() {
-    this.props.viewChannel(this.state.channelID);
+    this.props.viewChannel(this.state);
     this.interval = setInterval(
-      () => this.props.viewChannel(this.state.channelID),
+      () => this.props.viewChannel(this.state),
       5000
     );
   }
