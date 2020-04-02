@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { viewChannel } from "../redux/actions";
 import AddMessage from "./AddMessage";
 class ViewMessages extends Component {
+  /**
+   * This state isn't being used. Get rid of it.
+   */
   state = {
     channelID: this.props.match.params.channelID
   };
@@ -17,8 +20,8 @@ class ViewMessages extends Component {
   componentDidUpdate(prevProps) {
     const channelID = this.props.match.params.channelID;
     if (prevProps.match.params.channelID !== channelID) {
-      this.props.viewChannel(channelID);
       clearInterval(this.interval);
+      this.props.viewChannel(channelID);
       this.interval = setInterval(
         () => this.props.viewChannel(channelID),
         5000
@@ -32,7 +35,6 @@ class ViewMessages extends Component {
   render() {
     return (
       <div>
-        {" "}
         {this.props.messages.map(message => {
           return (
             <div
@@ -46,7 +48,6 @@ class ViewMessages extends Component {
             </div>
           );
         })}
-        ;
         <AddMessage channelID={this.props.match.params.channelID} />
       </div>
     );

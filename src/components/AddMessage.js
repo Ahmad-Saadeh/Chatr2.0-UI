@@ -12,11 +12,11 @@ class AddMessage extends Component {
   };
   onSubmit = event => {
     event.preventDefault();
-    this.setState({ message: "OMMO" });
+    this.setState({ message: "OMMO" }); // <-- what?
     this.props.addMessage(this.props.channelID, this.state);
     this.setState({ message: "" });
   };
-  //`<p class='hamada'> ${this.state.message}</p>`
+  //`<p class='hamada'> ${this.state.message}</p>` <-- ded
   render() {
     return (
       <div style={{ textAlign: "center", position: "relative" }}>

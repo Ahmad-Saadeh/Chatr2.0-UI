@@ -8,7 +8,7 @@ const channelViewReducer = (state = initialState, action) => {
       let channel = action.payload;
       return channel;
     case ADD_MESSAGE:
-      return state;
+      return state; // <-- this isn't doing anything
     default:
       return state;
   }
