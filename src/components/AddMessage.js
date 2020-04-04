@@ -50,7 +50,6 @@ class AddMessage extends Component {
   render() {
     return (
       <div style={{ textAlign: "center", position: "relative" }}>
-        <div className="row" id="scroller" style={{ marginBottom: "30px" }}>
           <form
             className="messageForm"
             name="messageForm"
@@ -63,12 +62,9 @@ class AddMessage extends Component {
               style={{
                 borderColor: "black",
                 borderWidth: "2px",
-                hight: "90px",
-                width: "25rem",
                 marginLeft: "1%"
               }}
               name="message"
-              // {...this.state.message.includes("")}
               value={this.state.message}
               placeholder="Write your message..."
               onChange={this.onTextChange}
@@ -93,9 +89,7 @@ class AddMessage extends Component {
             <button
               type="submit"
               style={{
-                width: "65px",
-                height: "47px",
-                marginLeft: "10px",
+                marginLeft: "18px",
                 backgroundColor: "white",
                 border: "none"
               }}
@@ -107,7 +101,6 @@ class AddMessage extends Component {
               ></img>
             </button>
           </form>
-        </div>
       </div>
     );
   }
