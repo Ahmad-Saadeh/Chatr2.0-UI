@@ -5,6 +5,12 @@ import AddMessage from "./AddMessage";
 import ReactImageFallback from "react-image-fallback";
 
 class ViewMessages extends Component {
+  messagesEndRef = React.createRef();
+
+  scrollToBottom = () => {
+    window.scrollTo(0, document.body.scrollHeight);
+  };
+
   setLiveMessagesInterval() {
     this.interval = setInterval(() => {
       const messages = this.props.messages;
@@ -25,6 +31,7 @@ class ViewMessages extends Component {
       clearInterval(this.interval);
       this.setLiveMessagesInterval();
     }
+    this.scrollToBottom();
   }
 
   componentWillUnmount() {
@@ -42,23 +49,28 @@ class ViewMessages extends Component {
     return isvalid;
   }
   render() {
+    let hamada;
     return (
-      <div className="allmess">
-        <div id="lol">
-          <h1 style={{ marginLeft: "10%" }}>Loading, please wait.</h1>
-        </div>
+      <div
+        className="allmess"
+        ref={el => {
+          this.messagesEnd = el;
+        }}
+      >
         {this.props.messages.map(message => {
+          if (this.props.user.username === message.username) {
+            hamada = "message-body active";
+          } else {
+            hamada = "message-body";
+          }
           return (
             <div
               key={message.id}
-              className="message-body"
+              className={hamada}
               style={{ marginLeft: "5%", marginTop: "25px" }}
             >
-              {this.props.user.username !== message.username ? (
-                <h5 style={{ marginLeft: "20px" }}>{message.username}:</h5>
-              ) : (
-                <h1 style={{ marginLeft: "20px" }}>{message.username}:</h1>
-              )}
+              <h5 style={{ marginLeft: "20px" }}>{message.username}:</h5>
+
               {this.isUrlAndIsExtension(message.message) ? (
                 <ReactImageFallback
                   src={message.message}
@@ -70,15 +82,7 @@ class ViewMessages extends Component {
                   }}
                 />
               ) : (
-                <p
-                  style={{
-                    marginLeft: "15%",
-                    marginRight: "15%",
-                    wordWrap: "break-word"
-                  }}
-                >
-                  {message.message}
-                </p>
+                <p className="textMessage">{message.message}</p>
               )}
               <br />
             </div>

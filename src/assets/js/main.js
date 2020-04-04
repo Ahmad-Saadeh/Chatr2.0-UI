@@ -1,6 +1,7 @@
 import $ from "jquery";
 import "./jquery.easing.min";
 
+
 const fn = () => {
   // Configure tooltips for collapsed side navigation
   $('.navbar-sidenav [data-toggle="tooltip"]').tooltip({
@@ -16,6 +17,7 @@ const fn = () => {
       ".navbar-sidenav .sidenav-second-level, .navbar-sidenav .sidenav-third-level"
     ).removeClass("show");
   });
+
   // Force the toggled class to be removed when a collapsible nav link is clicked
   $(".navbar-sidenav .nav-link-collapse").click(function(e) {
     e.preventDefault();
