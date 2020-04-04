@@ -2,43 +2,84 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { viewChannel } from "../redux/actions";
 import AddMessage from "./AddMessage";
+import ReactImageFallback from "react-image-fallback";
+
 class ViewMessages extends Component {
+  setLiveMessagesInterval() {
+    this.interval = setInterval(() => {
+      const messages = this.props.messages;
+      let timestamp = "";
+      if (messages.length) timestamp = messages[messages.length - 1].timestamp;
+      this.props.viewChannel(this.props.match.params.channelID, timestamp);
+    }, 3000);
+  }
   componentDidMount() {
-    const channelID = this.props.match.params.channelID;
-    this.props.viewChannel(channelID);
-    this.interval = setInterval(
-      () => this.props.viewChannel(channelID),
-      5000
-    );
+    this.props.viewChannel(this.props.match.params.channelID, "");
+    this.setLiveMessagesInterval();
   }
 
   componentDidUpdate(prevProps) {
-    const channelID = this.props.match.params.channelID;
-    if (prevProps.match.params.channelID !== channelID) {
+    if (
+      prevProps.match.params.channelID !== this.props.match.params.channelID
+    ) {
       clearInterval(this.interval);
-      this.props.viewChannel(channelID);
-      this.interval = setInterval(
-        () => this.props.viewChannel(channelID),
-        5000
-      );
+      this.setLiveMessagesInterval();
     }
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+
+  isUrlAndIsExtension(url) {
+    const isvalid =
+      url.includes("https://") ||
+      url.includes("http://") ||
+      url.includes("jpg") ||
+      url.includes("png") ||
+      url.includes("gif") ||
+      url.includes("jpeg");
+    return isvalid;
+  }
   render() {
     return (
-      <div>
+      <div className="allmess">
+        <div id="lol">
+          <h1 style={{ marginLeft: "10%" }}>Loading, please wait.</h1>
+        </div>
         {this.props.messages.map(message => {
           return (
             <div
-              class="message-body"
-              key={message}
-              style={{ marginLeft: "5%" }}
+              key={message.id}
+              className="message-body"
+              style={{ marginLeft: "5%", marginTop: "25px" }}
             >
-              <h5>{message.username}:</h5>
-              <p style={{ marginLeft: "10%" }}>{message.message}</p>
+              {this.props.user.username !== message.username ? (
+                <h5 style={{ marginLeft: "20px" }}>{message.username}:</h5>
+              ) : (
+                <h1 style={{ marginLeft: "20px" }}>{message.username}:</h1>
+              )}
+              {this.isUrlAndIsExtension(message.message) ? (
+                <ReactImageFallback
+                  src={message.message}
+                  fallbackImage="https://legacyogden.com/wp-content/uploads/2015/07/No-Image-Available1.png"
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    borderRadius: "50%"
+                  }}
+                />
+              ) : (
+                <p
+                  style={{
+                    marginLeft: "15%",
+                    marginRight: "15%",
+                    wordWrap: "break-word"
+                  }}
+                >
+                  {message.message}
+                </p>
+              )}
               <br />
             </div>
           );
@@ -51,13 +92,15 @@ class ViewMessages extends Component {
 
 const mapStateToProps = state => {
   return {
-    messages: state.channelViewReducer
+    messages: state.channelViewReducer,
+    user: state.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    viewChannel: channelID => dispatch(viewChannel(channelID))
+    viewChannel: (channelID, timestamp) =>
+      dispatch(viewChannel(channelID, timestamp))
   };
 };
 
