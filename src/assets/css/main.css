@@ -710,3 +710,13 @@ footer.sticky-footer {
 .message-body:nth-child(odd) {
   background-color: whitesmoke;
 }
+
+.allmess {
+  margin-right: 179px;
+  margin-left: 126px;
+}
+.messageForm {
+  margin-left: 130px;
+  display: flex;
+  margin-top: 30px;
+}

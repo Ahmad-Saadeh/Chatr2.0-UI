@@ -1,12 +1,44 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { viewChannel, addMessage } from "./../redux/actions/viewChannel";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import image from "../assets/images/send.png";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
+// import styles from "../assets/js/styles.js";
+
 class AddMessage extends Component {
   state = {
-    message: ""
+    message: "",
+    showEmojis: false
   };
+  showEmojis = e => {
+    this.setState(
+      {
+        showEmojis: true
+      },
+      () => document.addEventListener("click", this.closeMenu)
+    );
+  };
+
+  closeMenu = e => {
+    console.log(this.emojiPicker);
+    if (this.emojiPicker !== null && !this.emojiPicker.contains(e.target)) {
+      this.setState(
+        {
+          showEmojis: false
+        },
+        () => document.removeEventListener("click", this.closeMenu)
+      );
+    }
+  };
+
+  addEmoji = e => {
+    let emoji = e.native;
+    this.setState({
+      message: this.state.message + emoji
+    });
+  };
+
   onTextChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -18,43 +50,64 @@ class AddMessage extends Component {
   render() {
     return (
       <div style={{ textAlign: "center", position: "relative" }}>
-        <form name="messageForm" onSubmit={this.onSubmit}>
-          <div className="row" id="scroller">
-            <div>
-              <label forhtml="colFormLabelLg" style={{ marginLeft: "1rem " }}>
-                message:
-              </label>
-              <input
-                type="text"
-                className="form-control form-control-lg"
-                id="colFormLabelLg"
-                style={{
-                  borderColor: "#e30090",
-                  borderWidth: "2px",
-                  hight: "100px",
-                  width: "30rem",
-                  marginLeft: "1%",
-                  selfAlign: "center"
-                }}
-                name="message"
-                value={this.state.message}
-                placeholder="Write your message..."
-                onChange={this.onTextChange}
-              ></input>
-            </div>
+        <div className="row" id="scroller" style={{ marginBottom: "30px" }}>
+          <form
+            className="messageForm"
+            name="messageForm"
+            onSubmit={this.onSubmit}
+          >
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              id="colFormLabelLg"
+              style={{
+                borderColor: "black",
+                borderWidth: "2px",
+                hight: "90px",
+                width: "25rem",
+                marginLeft: "1%"
+              }}
+              name="message"
+              // {...this.state.message.includes("")}
+              value={this.state.message}
+              placeholder="Write your message..."
+              onChange={this.onTextChange}
+            ></input>
 
+            {this.state.showEmojis ? (
+              <span
+                style={styles.emojiPicker}
+                ref={el => (this.emojiPicker = el)}
+              >
+                <Picker
+                  onSelect={this.addEmoji}
+                  emojiTooltip={true}
+                  title="Hamada"
+                />
+              </span>
+            ) : (
+              <p style={styles.getEmojiButton} onClick={this.showEmojis}>
+                {String.fromCodePoint(0x1f60a)}
+              </p>
+            )}
             <button
-              id="send"
               type="submit"
-              value="Send"
-              style={{ marginLeft: "1rem " }}
+              style={{
+                width: "65px",
+                height: "47px",
+                marginLeft: "10px",
+                backgroundColor: "white",
+                border: "none"
+              }}
             >
-              <FontAwesomeIcon icon={faPaperPlane} />
+              <img
+                alt="PIC !"
+                src={image}
+                style={{ width: "44px", marginLeft: "-3px" }}
+              ></img>
             </button>
-            <br></br>
-            <br></br>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     );
   }
@@ -71,3 +124,37 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddMessage);
+
+const styles = {
+  container: {
+    padding: 20,
+    borderTop: "1px #4C758F solid",
+    marginBottom: 20
+  },
+  form: {
+    display: "flex"
+  },
+  input: {
+    color: "inherit",
+    background: "none",
+    outline: "none",
+    border: "none",
+    flex: 1,
+    fontSize: 16
+  },
+  getEmojiButton: {
+    cssFloat: "right",
+    border: "none",
+    margin: 0,
+    cursor: "pointer",
+    marginLeft: "-33px",
+    marginTop: "10px"
+  },
+  emojiPicker: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    cssFloat: "right",
+    marginLeft: "200px"
+  }
+};

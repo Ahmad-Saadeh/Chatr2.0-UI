@@ -1,9 +1,11 @@
-import { VIEW_CHANNEL, ADD_MESSAGE } from "./actionTypes";
+import { VIEW_CHANNEL, ADD_MESSAGE, CLEAR_MESSAGES } from "./actionTypes";
 import instance from "./instance";
 
-export const viewChannel = channelID => async dispatch => {
+export const viewChannel = (channelID, timestamp) => async dispatch => {
   try {
-    const res = await instance.get(`channels/${channelID}/`);
+    const res = await instance.get(
+      `channels/${channelID}/?latest=${timestamp}`
+    );
     const channel = res.data;
     dispatch({
       type: VIEW_CHANNEL,
@@ -29,4 +31,10 @@ export const addMessage = (channelID, message) => async dispatch => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const clearMessages = () => {
+  return {
+    type: CLEAR_MESSAGES
+  };
 };
